@@ -14,3 +14,16 @@ int col_2 = 8; // Column 2 is Pin 8
 int col_3 = 7; // Column 3 is Pin 7
 
 int col_4 = 6; // Column 4 is Pin 6
+
+int row = -1;
+int col = 0;
+
+char keypad[4][4] = {{'1', '2', '3', 'A'},
+
+                     {'4', '5', '6', 'B'},
+
+                     {'7', '8', '9', 'C'},
+
+                     {'*', '0', '#', 'D'}
+
+};
