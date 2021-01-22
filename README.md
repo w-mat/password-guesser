@@ -16,14 +16,14 @@ klawiatura
 
 ``` C++
 
-    #include "Keypad.h"
+#include "Keypad.h"
 #include <Wire.h>   
-#include <LiquidCrystal_I2C.h> 
+#include <LiquidCrystal_I2C.h>  //uzyte biblioteki
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const byte ROWS = 4; //four rows
-const byte COLS = 4; //three columns
+const byte ROWS = 4; //definiowanie macierzy klawiatury 4x4
+const byte COLS = 4; 
 char keys[ROWS][COLS] = {
   {'1','2','3' , 'A'},
   {'4','5','6' , 'B'},
@@ -31,12 +31,12 @@ char keys[ROWS][COLS] = {
   {'*','0','#' , 'D'}
 };
 byte rowPins[ROWS] = {2, 3, 4, 5};  //Piny, do których podłączamy wyprowadzenia od rzędów
-byte colPins[COLS] = {6, 7, 8 , 9}; //Piny, do których kolumn wyprowadzenia od rzędów
+byte colPins[COLS] = {6, 7, 8 , 9}; //Piny, do których kolumn wyprowadzenia od kolumn
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
-char wybrane[4];
-String los1;
+char wybrane[4];       
+String los1;        //zamiana z macierzy char na mozliwość poźniejszego porównania wyniku
 String los2;
 String los3;
 String los4;
@@ -55,13 +55,13 @@ void setup(){
  
  Serial.begin(9600);
  
-   randomSeed(analogRead(A0));
+   randomSeed(analogRead(A0));      //genererowanie pseudo losowego hasła
   int wylosowana[4] = {random(0,10), random(0,10), random(0,10), random(0,10)};
 
  
   
  
-  los1 += wylosowana[0];
+  los1 += wylosowana[0];    //przypisywanie elementów macierzy losowania
   los2 += wylosowana[1];
   los3 += wylosowana[2];
   los4 += wylosowana[3];
@@ -73,8 +73,8 @@ void setup(){
   
 void loop(){
  lcd.backlight();
- int p=0;
- int i =0;
+ int p=0;   //zmienna p odpowiedzialna za zliczanie ilości powtórek
+ int i =0;  //zmienna i odpowiedzialna za czas trwania pętli i=4 -> wszystkie cyfry są poprawne
  
  
  while(i < 4)
@@ -104,15 +104,16 @@ void loop(){
   lcd.print(wyb1);
   lcd.print(wyb2);
   lcd.print(wyb3);
-  lcd.print(wyb4);
+  lcd.print(wyb4);      //drukowanie liczb wpisanych przez uzytkownika
   lcd.setCursor(15,0);
   lcd.print(" ");
-wybor:
+wybor:      //miejsce powrótne goto
 
 p++;
   
-  if (wyb1 == los1)
-  {
+    if (wyb1 == los1)       //kazdy głębszy if odpowiada za sprawdzanie kolejnej cyfry 
+    {                       //poźniejsze else i if else odpowiada za naprowadzenie uytkownika
+                            //czy podana liczba jest za mała lub za duza
     lcd.setCursor(0,1); 
     lcd.print(wyb1);
     if (wyb2 == los2)
@@ -128,14 +129,14 @@ p++;
           lcd.setCursor(3,1); 
     lcd.print(wyb4);
           Serial.print("\nGG!");
-          Serial.print("\nWylosowany ciąg to: ");
+          Serial.print("\nWylosowany ciąg to: ");       //mozliwosc sprawdzenia programu w podglądzie portu szeregowego
           Serial.print(los1);
           Serial.print(los2);
           Serial.print(los3);
           Serial.print(los4);
           lcd.setCursor(0,0);
           lcd.print("gratulacje         ");
-          lcd.setCursor(8,1);
+          lcd.setCursor(8,1);                   //tekst drukowany na ekranie 16x2
           lcd.print(p);
           lcd.print("-prob");
         }
@@ -146,7 +147,7 @@ p++;
     Serial.print("\nWybrana liczba to: ");
     Serial.print(wyb4);
     lcd.setCursor(0,0);
-    lcd.print("4 liczba jest +");
+    lcd.print("4 liczba jest +");   //"liczba jest +" oznacza ze jest za duza
     lcd.setCursor(3,1); 
     lcd.print(wyb4);
     int i= 0;
