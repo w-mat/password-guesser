@@ -24,6 +24,8 @@ Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomył
 
 <h3>Film poglądowy</h3>
 
+https://drive.google.com/file/d/1GX0TifZx9D6Ksmyy8wN6SHwRR8NqQbrZ/view?usp=sharing
+
 <h3>Kod arduino</h3>
 
 ``` C++
