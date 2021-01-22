@@ -1,4 +1,4 @@
-# Arduino_tmp
+# password guesser
 
 Projekt polegający na odgadywaniu hasła.
 Początkowo wygenerowany kod 4 cyfr nalezy odgadnąć próbojąc wpisać odpowiednią kombinacje.
