@@ -8,11 +8,11 @@ Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomył
 
 
 
-Wykaz potrzebnych elementów:
-arduino Uno
-ekran 1602A
-konwerter i2c
-klawiatura
+<h2>Wykaz potrzebnych elementów:</h2>
+<ul>arduino Uno</ul>
+<ul>ekran 1602A</ul>
+<ul>konwerter i2c</ul>
+<ul>klawiatura 4x4</ul>
 
 ``` C++
 
