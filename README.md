@@ -16,6 +16,12 @@ Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomył
 
 <h3>Zdjęcia poglądowe</h3>
 
+![IMG_4253](https://user-images.githubusercontent.com/58706514/105529340-8ba4d100-5ce6-11eb-812f-ef40bff5c9da.jpg)
+
+![IMG_4254](https://user-images.githubusercontent.com/58706514/105529379-9bbcb080-5ce6-11eb-98e7-0df25d68bf90.jpg)
+
+![IMG_4257](https://user-images.githubusercontent.com/58706514/105529411-a70fdc00-5ce6-11eb-83fc-4b1014b6c1b5.jpg)
+
 <h3>Film poglądowy</h3>
 
 <h3>Kod arduino</h3>
