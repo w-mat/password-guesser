@@ -26,7 +26,125 @@ Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomył
 
 https://drive.google.com/file/d/1GX0TifZx9D6Ksmyy8wN6SHwRR8NqQbrZ/view?usp=sharing
 
-<h3>Kod arduino</h3>
+<h3>Zasada działania klawiatury</h3>
+
+``` C++
+#include "Keypad.h"
+
+const byte ROWS = 4; //definiowanie macierzy klawiatury 4x4
+const byte COLS = 4; 
+char keys[ROWS][COLS] = {
+  {'1','2','3' , 'A'},
+  {'4','5','6' , 'B'},
+  {'7','8','9' , 'C'},
+  {'*','0','#' , 'D'}
+};
+byte rowPins[ROWS] = {2, 3, 4, 5};  //Piny, do których podłączamy wyprowadzenia od rzędów
+byte colPins[COLS] = {6, 7, 8 , 9}; //Piny, do których kolumn wyprowadzenia od kolumn
+
+Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
+```
+Zasada działania klawatury opiera się na macierzy.
+8 wyprowadzeń podzielone są na pół. 4 wyprowadzenia (piny 2, 3, 4, 5) odpowiadają za rząd,
+pozostałe 4 (6, 7, 8, 9) odpoiwadają za kolumne.
+Zatem nie działa ona jak zwyczajna klawiatura, tylko przy wciśnięciu przycisku odczytywana jest wartość przypisana do kolumny i rzędu zapisanej macierzy. 
+
+``` C++
+char keys[ROWS][COLS] = {
+  {'1','2','3' , 'A'},
+  {'4','5','6' , 'B'},
+  {'7','8','9' , 'C'},
+  {'*','0','#' , 'D'}
+};
+```
+
+Przykładowo po wciśnięciu przycisku ```'5'``` program widzi drugi rząd ``` [ROWS] ``` i drugą kolumne ``` [COLS] ```. I odczytuje przypisaną wartość ```'5'```.
+
+<h3> Komunikacja z wyświetlaczem </h3>
+
+``` C++
+#include <LiquidCrystal_I2C.h>  
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup(){
+  lcd.begin(16,2);   
+  lcd.backlight(); // zalaczenie podwietlenia 
+  lcd.setCursor(0,0); 
+  lcd.print("zgadnij password");
+```
+
+Dzięki zastosowaniu komunikacji ``` I2C ``` należy podłączyć jedynie wyprowadzenia VCC i GND z wyściami VCC i GND w mikrokontrolerze Arduino. Tak samo jest z wyprowadznieami SDA i SCL podłączamy je z tak samo oznaczonymi wyprowadzeniami w Arduino.
+
+``` C++
+#include <LiquidCrystal_I2C.h>  
+```
+
+Biblioteka ``` LiquidCrystal_I2C ``` nie jest standardowo zainstalowana więc należy ją samodzielnie dołączyć do bibliotek.
+
+``` C++
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+```
+
+W moim przypadku adres ekranu to ``` 0x27 ```. 
+Aby ustalić adres ekranu należy sprawdzić adres magistrali i2c, aby to zrobić należy posłużyć się poniższym skryptem i sprawdzić wynik wydrukowany w monitorze szeregowym. 
+
+``` C++
+#include <Wire.h>
+void setup()
+  {
+    Wire.begin();
+    Serial.begin(9600);
+    Serial.println("\nI2C Scanner");
+  }
+void loop()
+  {
+    byte error, address;
+    int nDevices;
+    Serial.println("Scanning...");
+    nDevices = 0;
+    for(address = 1; address < 127; address++ ) 
+      {
+        Wire.beginTransmission(address);
+        error = Wire.endTransmission();
+        if (error == 0)
+          {
+            Serial.print("I2C device found at address 0x");
+            if (address<16) 
+            Serial.print("0");
+            Serial.print(address,HEX);
+            Serial.println(" !");
+            nDevices++;
+          }
+        else if (error==4) 
+          {
+            Serial.print("Unknow error at address 0x");
+            if (address<16) 
+            Serial.print("0");
+            Serial.println(address,HEX);
+          } 
+      }
+    if (nDevices == 0)
+    Serial.println("No I2C devices found\n");
+    else
+    Serial.println("done\n");
+    delay(5000); // wait 5 seconds for next scan
+    
+  }
+  ```
+  
+Po prawidłowej konfuguracji i podłączeniu można już w pełni korzystać z możliwości biblioteki.
+
+``` C+++
+lcd.backlight(); // zalaczenie podwietlenia 
+lcd.setCursor(0,0); 
+lcd.print("zgadnij password");
+```
+
+``` lcd.backlight() ``` odpowiada za podświetlenie ekranu. 
+```lcd.setCursor(0,0) ``` odpowiada za ustawienie kursora na ekranie, pierwsza liczba odpowiada za kolumune ```[0;15]```, druga liczba to rząd ```[0;1]```.
+
+<h3> Pełny kod arduino </h3>
 
 ``` C++
 
