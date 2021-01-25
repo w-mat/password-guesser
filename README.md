@@ -135,7 +135,7 @@ void loop()
   
 Po prawidłowej konfuguracji i podłączeniu można już w pełni korzystać z możliwości biblioteki.
 
-``` C+++
+``` C++
 lcd.backlight(); // zalaczenie podwietlenia 
 lcd.setCursor(0,0); 
 lcd.print("zgadnij password");
