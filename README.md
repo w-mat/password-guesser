@@ -1,20 +1,18 @@
-# password guesser
+# Password Guesser
 
-Projekt polegający na odgadywaniu hasła.
-Początkowo wygenerowany kod 4 cyfr nalezy odgadnąć próbojąc wpisać odpowiednią kombinacje.
-Następnie pojawia sie podpowiedz czy liczba jest poprawna, czy moze jest za mała bądź za duza.
+A project involving password guessing. Initially, a generated 4-digit code needs to be guessed by entering the correct combination. Subsequently, a hint appears indicating whether the number is correct or whether it is too small or too large.
 
-Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomyłek)
+After correctly guessing the generated code, the number of attempts (mistakes) will be displayed.
 
 
 
-<h2>Wykaz potrzebnych elementów:</h2>
+<h2>List of Required Components::</h2>
 <ul>arduino Uno</ul>
-<ul>ekran 1602A</ul>
-<ul>konwerter i2c</ul>
-<ul>klawiatura 4x4</ul>
+<ul>1602A LCD screen</ul>
+<ul>I2C converter</ul>
+<ul>4x4 keypad</ul>
 
-<h3>Zdjęcia poglądowe</h3>
+<h3>Illustrative Photos/h3>
 
 ![IMG_4253](https://user-images.githubusercontent.com/58706514/105529340-8ba4d100-5ce6-11eb-812f-ef40bff5c9da.jpg)
 
@@ -22,11 +20,11 @@ Po prawidłowym odgadnieciu wygenerowanego kodu pojawi się ilośc prób (pomył
 
 ![IMG_4257](https://user-images.githubusercontent.com/58706514/105529411-a70fdc00-5ce6-11eb-83fc-4b1014b6c1b5.jpg)
 
-<h3>Film poglądowy</h3>
+<h3>Video Overview</h3>
 
 https://drive.google.com/file/d/1GX0TifZx9D6Ksmyy8wN6SHwRR8NqQbrZ/view?usp=sharing
 
-<h3>Zasada działania klawiatury</h3>
+<h3>Keypad Operation Principle</h3>
 
 ``` C++
 #include "Keypad.h"
@@ -44,10 +42,7 @@ byte colPins[COLS] = {6, 7, 8 , 9}; //Piny, do których kolumn wyprowadzenia od 
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 ```
-Zasada działania klawatury opiera się na macierzy.
-8 wyprowadzeń podzielone są na pół. 4 wyprowadzenia (piny 2, 3, 4, 5) odpowiadają za rząd,
-pozostałe 4 (6, 7, 8, 9) odpoiwadają za kolumne.
-Zatem nie działa ona jak zwyczajna klawiatura, tylko przy wciśnięciu przycisku odczytywana jest wartość przypisana do kolumny i rzędu zapisanej macierzy. 
+The keypad operation is based on a matrix. The 8 outputs are divided in half, with 4 outputs (pins 2, 3, 4, 5) responsible for the row and the remaining 4 (6, 7, 8, 9) for the column. It does not operate like a standard keyboard; rather, when a button is pressed, the value assigned to the row and column of the matrix is read.
 
 ``` C++
 char keys[ROWS][COLS] = {
@@ -60,7 +55,7 @@ char keys[ROWS][COLS] = {
 
 Przykładowo po wciśnięciu przycisku ```'5'``` program widzi drugi rząd ``` [ROWS] ``` i drugą kolumne ``` [COLS] ```. I odczytuje przypisaną wartość ```'5'```.
 
-<h3> Komunikacja z wyświetlaczem </h3>
+<h3> LCD Communication </h3>
 
 ``` C++
 #include <LiquidCrystal_I2C.h>  
